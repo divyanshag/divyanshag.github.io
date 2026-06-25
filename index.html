@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Divyansh Agarwal — Data Engineer</title>
+<meta name="description" content="Divyansh Agarwal — Data Engineer at HDFC Bank. SQL, Power BI, SSIS, AWS. Building ETL pipelines and BI systems in BFSI." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0F1A;          /* deep console navy */
+    --ink-2:#0E1524;        /* slightly lighter base */
+    --panel:#121C2E;        /* card surface */
+    --panel-2:#16223A;      /* raised surface */
+    --line:rgba(122,150,190,0.16);
+    --line-2:rgba(122,150,190,0.28);
+    --text:#E9EEF8;
+    --muted:#8A97AD;
+    --muted-2:#64718A;
+    --teal:#2FE0C2;         /* live data signal */
+    --teal-dim:#1FA88F;
+    --amber:#F6B748;        /* money / banking accent */
+    --blue:#5AA0F2;
+    --r:14px;
+    --maxw:1120px;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* faint schema grid backdrop */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 0%,transparent 75%);
+            mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 0%,transparent 75%);
+    opacity:.5;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--teal);color:var(--ink)}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:saturate(140%) blur(12px);
+    background:rgba(10,15,26,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{font-family:var(--mono);font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:10px;font-size:15px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(47,224,194,.55);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,224,194,.5)}70%{box-shadow:0 0 0 8px rgba(47,224,194,0)}100%{box-shadow:0 0 0 0 rgba(47,224,194,0)}}
+  .nav-links{display:flex;gap:26px;align-items:center;font-size:14px;color:var(--muted)}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{font-family:var(--mono);font-size:13px;border:1px solid var(--line-2);padding:8px 14px;border-radius:9px;
+    color:var(--text);transition:all .2s;display:inline-flex;gap:8px;align-items:center}
+  .nav-cta:hover{border-color:var(--teal);color:var(--teal)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* ---------- HERO ---------- */
+  header{padding:72px 0 40px}
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  @media(max-width:880px){.hero{grid-template-columns:1fr;gap:32px}}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--teal);display:inline-block}
+  h1{font-family:var(--disp);font-weight:600;font-size:clamp(38px,6vw,62px);line-height:1.02;letter-spacing:-.02em;margin-bottom:18px}
+  h1 .grad{color:var(--teal)}
+  .lede{font-size:18px;color:var(--muted);max-width:46ch;margin-bottom:14px}
+  .lede strong{color:var(--text);font-weight:600}
+  .stack-line{font-family:var(--mono);font-size:13px;color:var(--muted-2);margin-bottom:30px}
+  .stack-line b{color:var(--blue);font-weight:500}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{font-family:var(--mono);font-size:14px;padding:13px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:9px;transition:all .22s;cursor:pointer;border:1px solid transparent}
+  .btn-primary{background:var(--teal);color:#04231D;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px rgba(47,224,194,.6)}
+  .btn-ghost{border:1px solid var(--line-2);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+
+  /* ---------- PIPELINE VISUAL ---------- */
+  .pipe-card{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:20px;position:relative;overflow:hidden}
+  .pipe-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .pipe-title{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em}
+  .lights{display:flex;gap:6px}
+  .lights i{width:9px;height:9px;border-radius:50%;display:block;background:var(--line-2)}
+  .lights i:nth-child(1){background:#ff5f57}.lights i:nth-child(2){background:#febc2e}.lights i:nth-child(3){background:#28c840}
+  .pipe-sub{font-family:var(--mono);font-size:11px;color:var(--muted-2);margin-bottom:14px}
+  svg.pipeline{width:100%;display:block}
+  .node-label{font-family:var(--mono);font-size:10.5px;fill:var(--text)}
+  .node-sub{font-family:var(--mono);font-size:8.5px;fill:var(--muted)}
+  .meter{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .meter div{background:var(--ink-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .meter span{display:block;font-family:var(--mono);font-size:10px;color:var(--muted-2);letter-spacing:.05em}
+  .meter b{font-family:var(--mono);font-size:16px;color:var(--teal);font-weight:700}
+
+  /* ---------- KPI STRIP ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px 0 0}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s}
+  .kpi:hover{border-color:var(--line-2);transform:translateY(-3px)}
+  .kpi .v{font-family:var(--disp);font-weight:600;font-size:32px;letter-spacing:-.01em;line-height:1}
+  .kpi .v.amber{color:var(--amber)}.kpi .v.teal{color:var(--teal)}
+  .kpi .l{font-size:13px;color:var(--muted);margin-top:8px}
+  .kpi::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--teal),transparent);opacity:.4}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:84px 0}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:38px}
+  .sec-num{font-family:var(--mono);font-size:13px;color:var(--teal)}
+  .sec-title{font-family:var(--disp);font-weight:600;font-size:clamp(26px,4vw,38px);letter-spacing:-.01em}
+  .sec-line{flex:1;height:1px;background:var(--line);align-self:center}
+
+  /* ABOUT */
+  .about{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:start}
+  @media(max-width:880px){.about{grid-template-columns:1fr}}
+  .about p{font-size:17px;color:var(--muted);margin-bottom:18px}
+  .about p strong{color:var(--text);font-weight:600}
+  .focus{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+  .focus h4{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);margin-bottom:14px}
+  .focus ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .focus li{display:flex;gap:11px;font-size:14.5px;color:var(--text)}
+  .focus li .tk{color:var(--teal);font-family:var(--mono);font-size:13px}
+
+  /* SKILLS */
+  .skills{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:880px){.skills{grid-template-columns:1fr}}
+  .skill-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:border-color .25s,transform .25s}
+  .skill-card:hover{border-color:var(--teal);transform:translateY(-3px)}
+  .skill-card .ic{font-family:var(--mono);font-size:12px;color:var(--teal);letter-spacing:.05em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .skill-card h3{font-family:var(--disp);font-weight:600;font-size:19px;margin-bottom:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--ink-2);border:1px solid var(--line);padding:5px 10px;border-radius:7px;transition:all .2s}
+  .chip:hover{color:var(--text);border-color:var(--line-2)}
+
+  /* PROJECTS */
+  .proj{display:flex;flex-direction:column;gap:18px}
+  .pcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .25s}
+  .pcard:hover{border-color:var(--line-2)}
+  .pcard.open{border-color:var(--teal)}
+  .pc-head{display:flex;align-items:center;gap:18px;padding:22px 24px;cursor:pointer;user-select:none}
+  .pc-idx{font-family:var(--mono);font-size:13px;color:var(--teal);min-width:30px}
+  .pc-main{flex:1}
+  .pc-main h3{font-family:var(--disp);font-weight:600;font-size:20px;margin-bottom:4px}
+  .pc-main .pc-meta{font-family:var(--mono);font-size:12px;color:var(--muted-2)}
+  .pc-tags{display:flex;gap:7px;flex-wrap:wrap}
+  @media(max-width:680px){.pc-tags{display:none}}
+  .ptag{font-family:var(--mono);font-size:11px;color:var(--blue);background:rgba(90,160,242,.1);border:1px solid rgba(90,160,242,.25);padding:4px 9px;border-radius:6px}
+  .pc-toggle{font-family:var(--mono);font-size:20px;color:var(--muted);transition:transform .3s,color .25s;min-width:24px;text-align:center}
+  .pcard.open .pc-toggle{transform:rotate(45deg);color:var(--teal)}
+  .pc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .pc-inner{padding:0 24px 24px;border-top:1px solid var(--line);margin-top:0}
+  .pc-grid{display:grid;grid-template-columns:1fr .9fr;gap:24px;padding-top:20px}
+  @media(max-width:760px){.pc-grid{grid-template-columns:1fr}}
+  .pc-desc p{font-size:15px;color:var(--muted);margin-bottom:14px}
+  .pc-impact{display:flex;gap:20px;flex-wrap:wrap;margin-top:6px}
+  .pc-impact div b{font-family:var(--disp);font-size:24px;color:var(--amber);display:block;line-height:1}
+  .pc-impact div span{font-size:12px;color:var(--muted-2)}
+  .code{background:var(--ink);border:1px solid var(--line);border-radius:11px;padding:16px;font-family:var(--mono);font-size:12.5px;line-height:1.75;overflow-x:auto;color:#cdd6e6}
+  .code .cm{color:var(--muted-2)}
+  .code .kw{color:var(--teal)}
+  .code .fn{color:var(--amber)}
+  .code .st{color:#9ece6a}
+  .code-cap{font-family:var(--mono);font-size:11px;color:var(--muted-2);margin-bottom:8px;letter-spacing:.04em}
+
+  /* EXPERIENCE */
+  .timeline{position:relative;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .tl{position:relative;padding-bottom:36px}
+  .tl:last-child{padding-bottom:0}
+  .tl::before{content:"";position:absolute;left:-30px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--teal)}
+  .tl .role{font-family:var(--disp);font-weight:600;font-size:20px}
+  .tl .co{color:var(--teal);font-weight:600}
+  .tl .when{font-family:var(--mono);font-size:12px;color:var(--muted-2);margin:4px 0 12px}
+  .tl ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .tl li{font-size:15px;color:var(--muted);padding-left:18px;position:relative}
+  .tl li::before{content:"▸";position:absolute;left:0;color:var(--teal-dim)}
+
+  /* CONTACT */
+  .contact{text-align:center;background:linear-gradient(180deg,var(--panel),var(--ink-2));border:1px solid var(--line);border-radius:24px;padding:60px 32px}
+  .contact h2{font-family:var(--disp);font-weight:600;font-size:clamp(28px,5vw,44px);letter-spacing:-.01em;margin-bottom:16px}
+  .contact p{color:var(--muted);font-size:17px;max-width:48ch;margin:0 auto 30px}
+  .contact-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  footer{padding:40px 0 60px;text-align:center;color:var(--muted-2);font-family:var(--mono);font-size:12.5px}
+  footer .dotline{color:var(--line-2)}
+
+  /* reveal anim */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .dot,.flow{animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="dot"></span>divyansh.agarwal</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="Divyansh_Agarwal_Data_Engineer_Resume.pdf" download><span>↓</span> Resume</a>
+  </div>
+</nav>
+
+<header id="top">
+  <div class="wrap">
+    <div class="hero">
+      <div class="reveal in">
+        <div class="eyebrow">Data Engineer · BFSI</div>
+        <h1>I turn raw banking data<br>into <span class="grad">decisions</span>.</h1>
+        <p class="lede">Data Engineer at <strong>HDFC Bank</strong> with 3.5 years building production ETL pipelines, BI dashboards, and automation that runs at scale.</p>
+        <p class="stack-line">// stack: <b>SQL</b> · <b>SSIS</b> · <b>Power BI (DAX)</b> · <b>AWS</b> · <b>Python</b></p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#projects">View projects →</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="pipe-card reveal in" aria-hidden="true">
+        <div class="pipe-head">
+          <span class="pipe-title">etl_pipeline.status</span>
+          <span class="lights"><i></i><i></i><i></i></span>
+        </div>
+        <div class="pipe-sub">live · 12+ source systems · running</div>
+        <svg class="pipeline" viewBox="0 0 420 150" role="img" aria-label="Data pipeline from source systems through SSIS and SQL to Power BI">
+          <defs>
+            <marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#2FE0C2" opacity="0.7"/>
+            </marker>
+          </defs>
+          <!-- connectors -->
+          <path id="p1" d="M62,75 H150" stroke="#2FE0C2" stroke-width="1.4" opacity="0.4" marker-end="url(#arr)" fill="none"/>
+          <path id="p2" d="M180,75 H262" stroke="#2FE0C2" stroke-width="1.4" opacity="0.4" marker-end="url(#arr)" fill="none"/>
+          <path id="p3" d="M292,75 H362" stroke="#2FE0C2" stroke-width="1.4" opacity="0.4" marker-end="url(#arr)" fill="none"/>
+          <!-- nodes -->
+          <g>
+            <rect x="14" y="55" width="48" height="40" rx="8" fill="#16223A" stroke="rgba(122,150,190,.3)"/>
+            <text class="node-label" x="38" y="73" text-anchor="middle">SRC</text>
+            <text class="node-sub" x="38" y="85" text-anchor="middle">12+ sys</text>
+          </g>
+          <g>
+            <rect x="150" y="55" width="30" height="40" rx="8" fill="#0E1524" stroke="#2FE0C2" stroke-opacity=".55"/>
+            <text class="node-label" x="165" y="73" text-anchor="middle">SSIS</text>
+            <text class="node-sub" x="165" y="85" text-anchor="middle">ETL</text>
+          </g>
+          <g>
+            <rect x="262" y="55" width="30" height="40" rx="8" fill="#16223A" stroke="rgba(122,150,190,.3)"/>
+            <text class="node-label" x="277" y="73" text-anchor="middle">SQL</text>
+            <text class="node-sub" x="277" y="85" text-anchor="middle">DWH</text>
+          </g>
+          <g>
+            <rect x="362" y="50" width="50" height="50" rx="8" fill="#0E1524" stroke="#F6B748" stroke-opacity=".5"/>
+            <text class="node-label" x="387" y="71" text-anchor="middle" fill="#F6B748">BI</text>
+            <text class="node-sub" x="387" y="83" text-anchor="middle">dashboards</text>
+          </g>
+          <!-- flowing packets -->
+          <circle r="3" fill="#2FE0C2" class="flow">
+            <animateMotion dur="2.2s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#p1"/></animateMotion>
+          </circle>
+          <circle r="3" fill="#2FE0C2" class="flow">
+            <animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion>
+          </circle>
+          <circle r="3" fill="#F6B748" class="flow">
+            <animateMotion dur="2.2s" begin="1.4s" repeatCount="indefinite"><mpath href="#p3"/></animateMotion>
+          </circle>
+        </svg>
+        <div class="meter">
+          <div><span>THROUGHPUT</span><b id="m1">3TB+</b></div>
+          <div><span>RELIABILITY</span><b id="m2">99.9%</b></div>
+          <div><span>LATENCY ↓</span><b id="m3">35%</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi reveal"><div class="v amber" data-count="5" data-prefix="₹" data-suffix="+ Cr">₹0 Cr</div><div class="l">Annual cost saved</div></div>
+      <div class="kpi reveal"><div class="v teal" data-count="90" data-suffix="%">0%</div><div class="l">Reporting time cut</div></div>
+      <div class="kpi reveal"><div class="v" data-count="10" data-suffix="K+">0</div><div class="l">Business users served</div></div>
+      <div class="kpi reveal"><div class="v" data-count="12" data-suffix="+">0</div><div class="l">Systems integrated</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">01</span><span class="sec-title">About</span><span class="sec-line"></span></div>
+    <div class="about reveal">
+      <div>
+        <p>I'm a Data Engineer in the <strong>Business Intelligence function at HDFC Bank</strong>, where I own data products end to end — from raw transaction ingestion through SSIS, to the Power BI dashboards that leadership reviews every morning.</p>
+        <p>My pipelines process <strong>3TB+ of banking data every month</strong> across 12+ source systems. The automation I've built has saved the bank <strong>₹5+ Cr annually</strong> and cut RBI compliance reporting from three days to three hours.</p>
+        <p>I'm equally comfortable writing optimised SQL, modelling a star schema, building a DAX measure, or scripting a Python job — and translating all of it into something a non-technical stakeholder can act on.</p>
+      </div>
+      <div class="focus">
+        <h4>What I do best</h4>
+        <ul>
+          <li><span class="tk">→</span> ETL pipeline design (SSIS, incremental loads, validation)</li>
+          <li><span class="tk">→</span> SQL performance — indexing, query &amp; SP tuning</li>
+          <li><span class="tk">→</span> Power BI — DAX, star schema, row-level security</li>
+          <li><span class="tk">→</span> Data automation that removes manual MIS work</li>
+          <li><span class="tk">→</span> Turning data into board-level decisions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">02</span><span class="sec-title">Technical skills</span><span class="sec-line"></span></div>
+    <div class="skills">
+      <div class="skill-card reveal">
+        <div class="ic">● core</div>
+        <h3>SQL &amp; Data Modeling</h3>
+        <div class="chips">
+          <span class="chip">Advanced SQL</span><span class="chip">CTEs</span><span class="chip">Window Functions</span>
+          <span class="chip">Stored Procedures</span><span class="chip">Indexing</span><span class="chip">Query Tuning</span>
+          <span class="chip">Star Schema</span><span class="chip">Data Warehousing</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="ic">● etl &amp; bi</div>
+        <h3>Pipelines &amp; Reporting</h3>
+        <div class="chips">
+          <span class="chip">SSIS</span><span class="chip">Incremental Loads</span><span class="chip">Data Validation</span>
+          <span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Row-Level Security</span>
+          <span class="chip">Tableau</span><span class="chip">Advanced Excel</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="ic">● cloud &amp; code</div>
+        <h3>Cloud &amp; Programming</h3>
+        <div class="chips">
+          <span class="chip">AWS S3</span><span class="chip">EC2</span><span class="chip">Lambda</span>
+          <span class="chip">Python</span><span class="chip">Pandas</span><span class="chip">Automation</span>
+          <span class="chip">Git</span><span class="chip">REST APIs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">03</span><span class="sec-title">Selected projects</span><span class="sec-line"></span></div>
+    <p class="reveal" style="color:var(--muted);margin:-22px 0 30px;font-size:15px">Click any project to expand the build details and a representative query.</p>
+    <div class="proj">
+
+      <!-- P1 -->
+      <div class="pcard reveal">
+        <div class="pc-head">
+          <span class="pc-idx">P-01</span>
+          <div class="pc-main">
+            <h3>Branch Performance Scorecard</h3>
+            <div class="pc-meta">Executive BI dashboard · 500+ branches</div>
+          </div>
+          <div class="pc-tags"><span class="ptag">Power BI</span><span class="ptag">SQL</span><span class="ptag">SSIS</span></div>
+          <span class="pc-toggle">+</span>
+        </div>
+        <div class="pc-body"><div class="pc-inner"><div class="pc-grid">
+          <div class="pc-desc">
+            <p>An executive Power BI dashboard tracking CASA growth, deposit targets, loan disbursals and cross-sell penetration across 500+ branches — reviewed in monthly business meetings at regional-head level.</p>
+            <p>Built the SQL data model (CTEs, window functions) with incremental SSIS loads for MTD/YTD metrics and dynamic branch rankings, replacing 4+ hours of weekly manual MIS.</p>
+            <div class="pc-impact">
+              <div><b>4 hrs</b><span>weekly MIS removed</span></div>
+              <div><b>500+</b><span>branches tracked</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="code-cap">// branch_ranking.sql</div>
+            <div class="code"><span class="cm">-- MTD CASA growth + rank per region</span><br><span class="kw">SELECT</span> branch_id, region,<br>&nbsp;&nbsp;casa_balance,<br>&nbsp;&nbsp;<span class="fn">RANK</span>() <span class="kw">OVER</span> (<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">PARTITION BY</span> region<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">ORDER BY</span> casa_growth_pct <span class="kw">DESC</span><br>&nbsp;&nbsp;) <span class="kw">AS</span> region_rank<br><span class="kw">FROM</span> vw_branch_mtd<br><span class="kw">WHERE</span> as_of_date = <span class="fn">EOMONTH</span>(<span class="fn">GETDATE</span>());</div>
+          </div>
+        </div></div></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="pcard reveal">
+        <div class="pc-head">
+          <span class="pc-idx">P-02</span>
+          <div class="pc-main">
+            <h3>NPA Early-Warning &amp; Portfolio Health Monitor</h3>
+            <div class="pc-meta">Risk analytics · 2 lakh+ accounts</div>
+          </div>
+          <div class="pc-tags"><span class="ptag">SQL</span><span class="ptag">Power BI</span></div>
+          <span class="pc-toggle">+</span>
+        </div>
+        <div class="pc-body"><div class="pc-inner"><div class="pc-grid">
+          <div class="pc-desc">
+            <p>A SQL rule engine flagging retail loan accounts showing early delinquency signals — consecutive missed EMIs, sharp balance drops — across 2 lakh+ active accounts.</p>
+            <p>Output feeds a Power BI dashboard with drill-through to account-level detail and RM assignment, so the Risk team can act <em>before</em> accounts slip into NPA.</p>
+            <div class="pc-impact">
+              <div><b>2L+</b><span>accounts monitored</span></div>
+              <div><b>Proactive</b><span>NPA prevention</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="code-cap">// npa_early_warning.sql</div>
+            <div class="code"><span class="cm">-- Flag accounts at delinquency risk</span><br><span class="kw">SELECT</span> account_id, dpd_bucket,<br>&nbsp;&nbsp;missed_emi_count,<br>&nbsp;&nbsp;<span class="kw">CASE WHEN</span> missed_emi_count &gt;= 2<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">AND</span> bal_drop_pct &gt; 40<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">THEN</span> <span class="st">'HIGH'</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">ELSE</span> <span class="st">'WATCH'</span> <span class="kw">END</span> <span class="kw">AS</span> risk_flag<br><span class="kw">FROM</span> vw_loan_health<br><span class="kw">WHERE</span> is_active = 1;</div>
+          </div>
+        </div></div></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="pcard reveal">
+        <div class="pc-head">
+          <span class="pc-idx">P-03</span>
+          <div class="pc-main">
+            <h3>Revenue Leakage Detection Engine</h3>
+            <div class="pc-meta">Anomaly detection · 10M+ daily records</div>
+          </div>
+          <div class="pc-tags"><span class="ptag">SQL</span><span class="ptag">Python</span></div>
+          <span class="pc-toggle">+</span>
+        </div>
+        <div class="pc-body"><div class="pc-inner"><div class="pc-grid">
+          <div class="pc-desc">
+            <p>A SQL + Python anomaly detection pipeline scanning 10M+ daily transactions for unbilled fees, missed charges, and pricing mismatches against the product master.</p>
+            <p>Identified <strong>₹2 Cr in unbilled transactions</strong> within the first three months of going live.</p>
+            <div class="pc-impact">
+              <div><b>₹2 Cr</b><span>leakage recovered</span></div>
+              <div><b>10M+</b><span>records / day</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="code-cap">// leakage_check.py</div>
+            <div class="code"><span class="cm"># flag fee mismatches vs master</span><br>mismatch = txn.merge(<br>&nbsp;&nbsp;fee_master, <span class="kw">on</span>=<span class="st">'product_id'</span>)<br>mismatch = mismatch[<br>&nbsp;&nbsp;mismatch.charged<br>&nbsp;&nbsp;&lt; mismatch.expected_fee<br>]<br>leak = mismatch.expected_fee \<br>&nbsp;&nbsp;.sub(mismatch.charged).<span class="fn">sum</span>()<br><span class="fn">print</span>(<span class="st">f'Leakage: ₹{leak:,.0f}'</span>)</div>
+          </div>
+        </div></div></div>
+      </div>
+
+      <!-- P4 -->
+      <div class="pcard reveal">
+        <div class="pc-head">
+          <span class="pc-idx">P-04</span>
+          <div class="pc-main">
+            <h3>RBI Regulatory Reporting Automation</h3>
+            <div class="pc-meta">Compliance BI · 3 days → 3 hours</div>
+          </div>
+          <div class="pc-tags"><span class="ptag">Power BI</span><span class="ptag">SQL</span><span class="ptag">SSIS</span></div>
+          <span class="pc-toggle">+</span>
+        </div>
+        <div class="pc-body"><div class="pc-inner"><div class="pc-grid">
+          <div class="pc-desc">
+            <p>Automated the bank's RBI compliance reporting suite using parameterised SSIS packages and Power BI, replacing a fragile multi-day spreadsheet process.</p>
+            <p>Cut the reporting cycle by <strong>90% — from three days to three hours</strong> — with built-in validation that catches reconciliation breaks before submission.</p>
+            <div class="pc-impact">
+              <div><b>90%</b><span>time reduction</span></div>
+              <div><b>0</b><span>manual reconciliations</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="code-cap">// recon_validation.sql</div>
+            <div class="code"><span class="cm">-- catch breaks pre-submission</span><br><span class="kw">SELECT</span> report_code,<br>&nbsp;&nbsp;source_total, gl_total,<br>&nbsp;&nbsp;source_total - gl_total <span class="kw">AS</span> diff<br><span class="kw">FROM</span> vw_regulatory_recon<br><span class="kw">WHERE</span> <span class="fn">ABS</span>(source_total - gl_total) &gt; 0<br><span class="kw">ORDER BY</span> <span class="fn">ABS</span>(diff) <span class="kw">DESC</span>;</div>
+          </div>
+        </div></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">04</span><span class="sec-title">Experience</span><span class="sec-line"></span></div>
+    <div class="timeline reveal">
+      <div class="tl">
+        <div class="role">Data Engineer · <span class="co">HDFC Bank Ltd.</span></div>
+        <div class="when">FEB 2023 — PRESENT · MUMBAI</div>
+        <ul>
+          <li>Architected SSIS ETL pipelines integrating 12+ banking systems, processing 3TB+ monthly data at 99%+ reliability.</li>
+          <li>Built Power BI dashboards (DAX, star schema, RLS) cutting RBI reporting from 3 days to 3 hours.</li>
+          <li>Optimised 50+ production SQL queries — 35% faster average runtime — via indexing and SP redesign.</li>
+          <li>Delivered ₹5+ Cr in annual savings through end-to-end reporting automation serving 10,000+ users.</li>
+        </ul>
+      </div>
+      <div class="tl">
+        <div class="role">Software Developer · <span class="co">Decimal Technologies</span></div>
+        <div class="when">FEB 2022 — AUG 2022 · GURUGRAM</div>
+        <ul>
+          <li>Built secure REST API integrations for enterprise BFSI mobile applications.</li>
+          <li>Implemented data-exchange protocols between mobile apps and core banking systems.</li>
+        </ul>
+      </div>
+      <div class="tl">
+        <div class="role">Education</div>
+        <div class="when">B.TECH IT · BVCOE NEW DELHI (2018–22) · PG DATA ENGINEERING · NIIT (2022–23)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact reveal">
+      <h2>Let's build something with data.</h2>
+      <p>Open to senior Data Engineer &amp; Analytics Engineer roles in Delhi-NCR or remote. If you're solving hard data problems, I'd like to hear about it.</p>
+      <div class="contact-row">
+        <a class="btn btn-primary" href="mailto:divyanshag4@gmail.com">✉ divyanshag4@gmail.com</a>
+        <a class="btn btn-ghost" href="tel:+918272056463">☎ +91-8272056463</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/divyansh-agarwal" target="_blank" rel="noopener">in · LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Divyansh Agarwal <span class="dotline">·</span> Data Engineer <span class="dotline">·</span> built &amp; hand-coded
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // count-up KPIs
+  function animateCount(el){
+    const target = parseFloat(el.dataset.count);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const dur = 1300; const start = performance.now();
+    function tick(now){
+      const p = Math.min((now-start)/dur,1);
+      const eased = 1-Math.pow(1-p,3);
+      const val = Math.round(eased*target);
+      el.textContent = prefix+val+suffix;
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const kio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ animateCount(e.target.querySelector('[data-count]')); kio.unobserve(e.target);} });
+  },{threshold:0.5});
+  document.querySelectorAll('.kpi').forEach(k=>kio.observe(k));
+
+  // project accordions
+  document.querySelectorAll('.pc-head').forEach(head=>{
+    head.addEventListener('click',()=>{
+      const card = head.closest('.pcard');
+      const body = card.querySelector('.pc-body');
+      const open = card.classList.contains('open');
+      document.querySelectorAll('.pcard.open').forEach(c=>{
+        if(c!==card){ c.classList.remove('open'); c.querySelector('.pc-body').style.maxHeight=null; }
+      });
+      if(open){ card.classList.remove('open'); body.style.maxHeight=null; }
+      else { card.classList.add('open'); body.style.maxHeight=body.scrollHeight+'px'; }
+    });
+  });
+  // keep open card sized on resize
+  window.addEventListener('resize',()=>{
+    const c=document.querySelector('.pcard.open');
+    if(c){const b=c.querySelector('.pc-body');b.style.maxHeight=b.scrollHeight+'px';}
+  });
+</script>
+</body>
+</html>
